@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using Enemy;
@@ -16,6 +17,10 @@ public class GameController : MonoBehaviour {
 	public Transform EnemyMoveEndPoint;
 
 	private Tween enemyMovingTween;
+
+	public void Awake(){
+//		playerSubmarine.
+	}
 
 	private void Start(){
 		playerSubmarine = SpawnSubmarine(

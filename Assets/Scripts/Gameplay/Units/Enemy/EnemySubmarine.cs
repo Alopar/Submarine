@@ -7,33 +7,46 @@ using Object = UnityEngine.Object;
 
 namespace Enemy {
 	public class EnemySubmarine : MonoBehaviour {
-		public Submarine Submarine;
-		public Hider Hider;
+		public event Action OnDestroy;
+		public event Action<bool> OnVisibilityChanged;
 
-		public bool IsVisible;
-		private float visibilityValue;
+		[SerializeField] private Submarine Submarine;
+		[SerializeField] private Hider Hider;
 
-//		public void SetSubmarine(Submarine submarine){
-////			if (submarine != null){
-////				KillCurrent();
-////			}
-//
-//			this.Submarine = submarine;
-//		}
+		[SerializeField] private EnemySubmarineConfig Config;
+		[SerializeField] private EnemySubmarineModel model;
 
-//		public void KillCurrent(){
-//			if (Submarine != null){
-//				Object.Destroy(Submarine.gameObject);
-//			}
-//		}
+		private void Awake(){
+			Init(new EnemySubmarineModel(){
+				Health = Config.Model.MaxHealth,
+				visibilityValue = 1.0f,
+				IsVisible = true,
+			});
+		}
+
+		public void Init(EnemySubmarineModel model){
+			this.model = model;
+		}
+
+		public void TakeDamage(float damage){
+			model.Health = model.Health = Mathf.Max(model.Health - damage, 0.0f);
+			if (model.Health <= 0.0f){
+				OnDestroy?.Invoke();
+			}
+		}
 
 		public void Show(bool isHard = false){
 			if (isHard){
 				Hider.SetVisibilityValue(1.0f);
 			} else{
-				DOTween.To(() => visibilityValue, value => {
-					visibilityValue = value;
+				DOTween.To(() => model.visibilityValue, value => {
+					model.visibilityValue = value;
 					Hider.SetVisibilityValue(value);
+
+					if (!model.IsVisible && value >= 0.5f){
+						model.IsVisible = true;
+						OnVisibilityChanged?.Invoke(true);
+					}
 				}, 1.0f, 0.5f);
 			}
 		}
@@ -42,9 +55,14 @@ namespace Enemy {
 			if (isHard){
 				Hider.SetVisibilityValue(0.0f);
 			} else{
-				DOTween.To(() => visibilityValue, value => {
-					visibilityValue = value;
+				DOTween.To(() => model.visibilityValue, value => {
+					model.visibilityValue = value;
 					Hider.SetVisibilityValue(value);
+
+					if (model.IsVisible && value <= 0.5f){
+						model.IsVisible = false;
+						OnVisibilityChanged?.Invoke(false);
+					}
 				}, 0.0f, 0.5f);
 			}
 		}

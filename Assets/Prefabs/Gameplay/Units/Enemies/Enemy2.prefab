@@ -90,7 +90,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e8d062c196318784d8c97fb792e406f5, type: 2}
+  - {fileID: 2100000, guid: 9632ae3f41cb993488ba55b0f21857d0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 164742574525624134}
   - component: {fileID: 5901401964543720785}
   m_Layer: 0
-  m_Name: Enemy1
+  m_Name: Enemy2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Submarine: {fileID: 164742574525624134}
   Hider: {fileID: 5901401964543720785}
-  Config: {fileID: 11400000, guid: 59cb56c6df97bd740abdf85c8a45983c, type: 2}
+  Config: {fileID: 11400000, guid: 3d764812e9c274f4495c74b642e1cadc, type: 2}
   model:
     IsVisible: 0
     visibilityValue: 0
