@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 965ab951be58403bbba9d8a62c0f2719, type: 3}
+  m_Name: GameplaySettings
+  m_EditorClassIdentifier: 
+  PlayerSubmarine: {fileID: 1965606269718650349, guid: d560cfe5525c1d24cbfcdd0cd9e598a1, type: 3}
+  Enemies:
+  - {fileID: 8429494328288825199, guid: d87054057adb7b341a394838f3d9da30, type: 3}
