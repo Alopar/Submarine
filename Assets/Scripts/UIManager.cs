@@ -43,7 +43,7 @@ public class UIManager : MonoBehaviour
 
     private void BattleTimerEnabledHandler(float value)
     {
-        timer.GetComponentInChildren<TextMeshProUGUI>().text = "Time: " + value;
+        timer.GetComponentInChildren<TextMeshProUGUI>().text = "Time: " + $"{value:f1}";
     }
 
     public static event Action<bool> OnSoundToggle;

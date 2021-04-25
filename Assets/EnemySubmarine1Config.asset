@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: EnemySubmarine1Config
   m_EditorClassIdentifier: 
   Model:
-    MaxHealth: 80
-    Damage: 12
+    MaxHealth: 180
+    Damage: 120
     FireFate: 0.5

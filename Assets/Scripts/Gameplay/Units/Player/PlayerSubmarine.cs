@@ -18,6 +18,7 @@ public class PlayerSubmarine : MonoBehaviour {
 	public event Action<int, float> OnCrewMemberHealthUpdate;
 
 	[SerializeField] private Submarine Submarine;
+	[SerializeField] private ControllerSubmarineHealthbar Healthbar;
 	[SerializeField] private PlayerSubmarineConfig Config;
 	[SerializeField] private PlayerSubmarineModel model;
 
@@ -93,7 +94,8 @@ public class PlayerSubmarine : MonoBehaviour {
 	}
 
 	public void TakeHullDamage(float damage){
-		model.Health = model.Health = Mathf.Max(model.Health - damage, 0.0f);
+		model.Health = Mathf.Max(model.Health - damage, 0.0f);
+		Healthbar.SetFill(model.Health/Config.Model.MaxHealth);
 		OnHealthUpdate?.Invoke(model.Health);
 		if (model.Health <= 0.0f){
 			OnDestroy?.Invoke();
@@ -101,6 +103,7 @@ public class PlayerSubmarine : MonoBehaviour {
 	}
 
 	public void TakeRoomDamage(RoomType roomType, float damage){
+//		Debug.Log(roomType);
 		var room = roomsModelsDictionary[roomType];
 		float newHealth = Mathf.Max(room.Health - damage, 0.0f);
 		room.Health = newHealth;

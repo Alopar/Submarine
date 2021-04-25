@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace Gameplay {
 	public class Torpedo : MonoBehaviour {
-		public event Action OnHit;
+		public event Action<float> OnHit;
 
 		[SerializeField] private TorpedoLayers TorpedoLayers;
 		[SerializeField] private List<GameObject> AllObjects;
@@ -22,6 +22,7 @@ namespace Gameplay {
 		private float runProgress = 0.0f;
 		private bool needExplode;
 		private bool isRun = false;
+		public float DamageValue{ get; set; }
 
 
 		private void Update(){
@@ -31,7 +32,7 @@ namespace Gameplay {
 				transform.Translate(Vector3.forward * 10.0f * Time.deltaTime, Space.Self);
 
 				if (needExplode && runProgress > 1.0f){
-					OnHit?.Invoke();
+					OnHit?.Invoke(DamageValue);
 					Kill();
 				}
 
