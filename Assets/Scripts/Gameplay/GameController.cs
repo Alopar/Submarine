@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour {
 		   .GetComponent<PlayerSubmarine>();
 
 		playerSubmarine.OnShot += PlayerShot;
-		playerSubmarine.OnDestroy+=PlayerSubmarineDestroyHandler;
+		playerSubmarine.OnDestroy += PlayerSubmarineDestroyHandler;
 		OnPlayerSubmarineReady?.Invoke(playerSubmarine);
 
 		torpedosController.PlayerSubmarine = playerSubmarine;
@@ -69,7 +69,11 @@ public class GameController : MonoBehaviour {
 		OnFail?.Invoke();
 	}
 
-	private void PlayerTakeHitHandler(float damage) => playerSubmarine.TakeHullDamage(damage);
+	private void PlayerTakeHitHandler(float damage){
+		playerSubmarine.TakeHullDamage(damage);
+		RoomType damagedRoom = (RoomType) Random.Range(1, 5 + 1);
+		playerSubmarine.TakeRoomDamage(damagedRoom, damage);
+	}
 
 	private void EnemyTakeHitHandler(float damage){
 		if (enemySubmarine != null){
@@ -129,7 +133,7 @@ public class GameController : MonoBehaviour {
 
 	public void EnemyShot(){
 		bool isHit = Random.value > playerSubmarine.GetMobility();
-		Vector3 targetPoint = isHit ? playerSubmarine.GetHitPoint(): playerSubmarine.GetMissPoint() ;
+		Vector3 targetPoint = isHit ? playerSubmarine.GetHitPoint() : playerSubmarine.GetMissPoint();
 		torpedosController.EnemyShot(enemySubmarine.GetDamageValue(), targetPoint, isHit);
 	}
 
