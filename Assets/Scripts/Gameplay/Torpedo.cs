@@ -33,6 +33,7 @@ namespace Gameplay {
 
 				if (needExplode && runProgress > 1.0f){
 					OnHit?.Invoke(DamageValue);
+					AudioManager.Play("Explosion");
 					Kill();
 				}
 
