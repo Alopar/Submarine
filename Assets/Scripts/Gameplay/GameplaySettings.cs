@@ -8,5 +8,13 @@ namespace Gameplay {
 	public class GameplaySettings : ScriptableObject {
 		public PlayerSubmarine PlayerSubmarine;
 		public List<EnemySubmarine> Enemies;
+		public List<BattleWave> EnemiesWaves;
+		
+		
+	}
+
+	public class BattleWave {
+		public float PreparingTime;
+		public EnemySubmarine EnemyPrefab;
 	}
 }
