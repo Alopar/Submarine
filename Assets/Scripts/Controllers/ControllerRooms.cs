@@ -40,7 +40,7 @@ public class ControllerRooms : MonoBehaviour
 
     private void CrewMemberDeathHandler(int _crewID)
     {
-        Destroy(_crews.Where(c => c.GetCrewID() == _crewID).FirstOrDefault());
+        Destroy(_crews.Where(c => c.GetCrewID() == _crewID).FirstOrDefault().gameObject);
     }
 
     private void RoomHealthUpdateHandler(RoomType roomType, float value)
