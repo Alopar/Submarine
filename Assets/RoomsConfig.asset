@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14c864996a114a2d82c353922c5dcf41, type: 3}
+  m_Name: RoomsConfig
+  m_EditorClassIdentifier: 
+  WeaponsRoomConfig:
+    BaseValue: 10
+    PerCrewMember: 2
+  SonarRoomConfig:
+    BaseValue: 50
+    PerCrewMember: 10
+  EngineRoomConfig:
+    BaseValue: 10
+    PerCrewMember: 10
+  MedBayRoomConfig:
+    BaseValue: 10
+  HullRepairRoomConfig:
+    BaseValue: 40
+    PerCrewMember: 20

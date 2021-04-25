@@ -8,6 +8,7 @@ using Object = UnityEngine.Object;
 namespace Enemy {
 	public class EnemySubmarine : MonoBehaviour {
 		public event Action OnDestroy;
+		public event Action<float> OnHealthUpdate;
 		public event Action<bool> OnVisibilityChanged;
 
 		[SerializeField] private Submarine Submarine;
@@ -17,24 +18,29 @@ namespace Enemy {
 		[SerializeField] private EnemySubmarineModel model;
 
 		private void Awake(){
-			Init(new EnemySubmarineModel(){
+			model=new EnemySubmarineModel(){
 				Health = Config.Model.MaxHealth,
 				visibilityValue = 1.0f,
 				IsVisible = true,
-			});
+			};
 		}
+		
+		public float GetDamageValue() => Config.Model.Damage;
 
-		public void Init(EnemySubmarineModel model){
-			this.model = model;
-		}
-
-		public void TakeDamage(float damage){
+//		private float GetAccuracy() => Config.Model.RoomsConfig.GetSonarRoomValue(
+//			roomsConfigsDictionary[RoomType.Sonar].CrewModels.Count);
+//
+//		private float GetMobility() => Config.Model.RoomsConfig.GetEngineRoomValue(
+//			roomsConfigsDictionary[RoomType.Engine].CrewModels.Count);
+		
+		public void TakeHullDamage(float damage){
 			model.Health = model.Health = Mathf.Max(model.Health - damage, 0.0f);
+			OnHealthUpdate?.Invoke(model.Health);
 			if (model.Health <= 0.0f){
 				OnDestroy?.Invoke();
 			}
 		}
-
+		
 		public void Show(bool isHard = false){
 			if (isHard){
 				Hider.SetVisibilityValue(1.0f);
