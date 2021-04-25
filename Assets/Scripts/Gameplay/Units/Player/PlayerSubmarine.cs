@@ -67,18 +67,18 @@ public class PlayerSubmarine : MonoBehaviour {
 	public float GetMaxRoomHP(RoomType roomType) => roomsConfigsDictionary[roomType].MaxHealth;
 
 	public float GetDamageValue() => Config.Model.RoomsConfig.GetWeaponsRoomValue(
-		roomsConfigsDictionary[RoomType.Weapons].CrewModels.Count);
+		roomsModelsDictionary[RoomType.Weapons].CrewModels.Count);
 
 	public float GetAccuracy() => Config.Model.RoomsConfig.GetSonarRoomValue(
-		roomsConfigsDictionary[RoomType.Sonar].CrewModels.Count);
+		roomsModelsDictionary[RoomType.Sonar].CrewModels.Count);
 
 	public float GetMobility() => Config.Model.RoomsConfig.GetEngineRoomValue(
-		roomsConfigsDictionary[RoomType.Engine].CrewModels.Count);
+		roomsModelsDictionary[RoomType.Engine].CrewModels.Count);
 
 	private float GetMedBayHealValue() => Config.Model.RoomsConfig.GetMedBayRoomValue();
 
 	private float GetHullRepairValue() => Config.Model.RoomsConfig.GetHullRepairRoomValue(
-		roomsConfigsDictionary[RoomType.HullRepair].CrewModels.Count);
+		roomsModelsDictionary[RoomType.HullRepair].CrewModels.Count);
 
 	public float GetCrewMemberMaxHealthById(int id) => crewMembersConfig[id].MaxHealth;
 
