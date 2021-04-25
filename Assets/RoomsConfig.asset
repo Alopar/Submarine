@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponsRoomConfig:
     BaseValue: 0
-    PerCrewMember: 0.5
+    PerCrewMember: 0.25
   SonarRoomConfig:
     BaseValue: 0.2
     PerCrewMember: 0.2
   EngineRoomConfig:
-    BaseValue: 0.2
-    PerCrewMember: 0.2
+    BaseValue: 0.1
+    PerCrewMember: 0.1
   MedBayRoomConfig:
     BaseValue: 10
   HullRepairRoomConfig:
