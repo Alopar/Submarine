@@ -22,7 +22,7 @@ MonoBehaviour:
         MaxHealth: 100
         RepairingSpeedPerCrewMember: 10
         CrewModels:
-        - Id: 1
+        - Id: 0
           MaxHealth: 100
         - Id: 2
           MaxHealth: 100
