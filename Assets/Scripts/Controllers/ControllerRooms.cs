@@ -33,8 +33,14 @@ public class ControllerRooms : MonoBehaviour
     private void PlayerSubmarineReadyHandler(PlayerSubmarine playerSubmarine)
     {
         _playerSubmarine = playerSubmarine;
-        playerSubmarine.OnRoomHealthUpdate += RoomHealthUpdateHandler;
-        playerSubmarine.OnCrewMemberHealthUpdate += CrewMemberHealthUpdateHandler;
+        _playerSubmarine.OnRoomHealthUpdate += RoomHealthUpdateHandler;
+        _playerSubmarine.OnCrewMemberHealthUpdate += CrewMemberHealthUpdateHandler;
+        _playerSubmarine.OnCrewMemberDeath += CrewMemberDeathHandler;
+    }
+
+    private void CrewMemberDeathHandler(int _crewID)
+    {
+        Destroy(_crews.Where(c => c.GetCrewID() == _crewID).FirstOrDefault());
     }
 
     private void RoomHealthUpdateHandler(RoomType roomType, float value)
@@ -47,5 +53,18 @@ public class ControllerRooms : MonoBehaviour
     {
         float _normalazedHP = value / _playerSubmarine.GetCrewMemberMaxHealthById(_crewId);
         _crews.Where(c => c.GetCrewID() == _crewId).FirstOrDefault().SetHealth(_normalazedHP);
+    }
+
+    void OnDestroy()
+    {
+        _gameController.OnPlayerSubmarineReady -= PlayerSubmarineReadyHandler;
+        _playerSubmarine.OnRoomHealthUpdate -= RoomHealthUpdateHandler;
+        _playerSubmarine.OnCrewMemberHealthUpdate -= CrewMemberHealthUpdateHandler;
+        _playerSubmarine.OnCrewMemberDeath -= CrewMemberDeathHandler;
+
+        foreach (Room room in _rooms)
+        {
+            room.OnCrewCellDrop -= CrewCellDropHandler;
+        }
     }
 }
