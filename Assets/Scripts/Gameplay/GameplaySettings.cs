@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Enemy;
 using Gameplay.Units;
@@ -13,6 +14,7 @@ namespace Gameplay {
 		
 	}
 
+	[Serializable]
 	public class BattleWave {
 		public float PreparingTime;
 		public EnemySubmarine EnemyPrefab;

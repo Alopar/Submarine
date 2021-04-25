@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class PlayerSubmarine : MonoBehaviour {
 	public event Action OnDestroy;
+	public event Action OnShot;
 	public event Action<float> OnHealthUpdate;
 	public event Action<RoomType> OnRoomDisabled;
 	public event Action<RoomType> OnRoomEnabled;
@@ -28,6 +29,7 @@ public class PlayerSubmarine : MonoBehaviour {
 	private void Awake(){
 		model = new PlayerSubmarineModel(){
 			Health = Config.Model.MaxHealth,
+			WeaponsReloadProgress = 1.0f,
 			Rooms = Config.Model.Rooms.Select(room => new RoomItem(){
 				Type = room.Type,
 				Model = new RoomModel(){
@@ -57,6 +59,8 @@ public class PlayerSubmarine : MonoBehaviour {
 		}
 	}
 
+	public void SetFireEnabled(bool isEnabled) => model.IsNeedShot = isEnabled;
+
 	public bool IsRoomEnabled(RoomType roomType) => roomsModelsDictionary[roomType].IsActive;
 
 	public float GetDamageValue() => Config.Model.RoomsConfig.GetWeaponsRoomValue(
@@ -77,6 +81,7 @@ public class PlayerSubmarine : MonoBehaviour {
 		HealTick(Time.deltaTime);
 		HullRepairTick(Time.deltaTime);
 		RoomsRepairTick(Time.deltaTime);
+		WeaponsTick(Time.deltaTime);
 	}
 
 	public void TakeHullDamage(float damage){
@@ -145,6 +150,20 @@ public class PlayerSubmarine : MonoBehaviour {
 					OnRoomEnabled?.Invoke(roomItem.Type);
 				}
 			}
+		}
+	}
+
+	public void WeaponsTick(float deltaTime){
+		if (!roomsModelsDictionary[RoomType.Weapons].IsActive) return;
+
+		if (model.WeaponsReloadProgress < 1.0f){
+			float appendReload = Config.Model.RoomsConfig.GetWeaponsRoomValue(roomsModelsDictionary[RoomType.Weapons].CrewModels.Count)*deltaTime;
+			model.WeaponsReloadProgress = Mathf.Min(model.WeaponsReloadProgress + appendReload, 1.0f);
+		}
+
+		if (model.IsNeedShot && model.WeaponsReloadProgress == 1.0f){
+			model.WeaponsReloadProgress = 0.0f;
+			OnShot?.Invoke();
 		}
 	}
 

@@ -15,3 +15,4 @@ MonoBehaviour:
   Model:
     MaxHealth: 120
     Damage: 8
+    FireFate: 0.5
