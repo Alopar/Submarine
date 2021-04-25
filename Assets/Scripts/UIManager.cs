@@ -7,14 +7,43 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    private GameController _gameController;
+    public GameObject timer;
+    public GameObject end;
+
     void Awake()
     {
-        
+        _gameController = FindObjectOfType<GameController>();
+        _gameController.OnBattleTimerEnabled += BattleTimerEnabledHandler;
+        _gameController.OnBattleTimerDisabled += BattleTimerDisabledHandler;
+        _gameController.OnBattleTimerUpdated += BattleTimerEnabledHandler;        
+        _gameController.OnWin += WinHandler;
+        _gameController.OnFail += FailHandler;
     }
 
-    void Start()
+    private void FailHandler()
     {
+        end.SetActive(true);
+    }
 
+    private void WinHandler()
+    {
+        end.SetActive(true);
+    }
+
+    private void BattleTimerEnabledHandler()
+    {
+        timer.SetActive(true);
+    }
+
+    private void BattleTimerDisabledHandler()
+    {
+        timer.SetActive(true);
+    }
+
+    private void BattleTimerEnabledHandler(float value)
+    {
+        timer.GetComponentInChildren<TextMeshProUGUI>().text = "Time: " + value;
     }
 
     public static event Action<bool> OnSoundToggle;
@@ -68,7 +97,11 @@ public class UIManager : MonoBehaviour
 
     void OnDestroy()
     {
-
+        _gameController.OnBattleTimerEnabled -= BattleTimerEnabledHandler;
+        _gameController.OnBattleTimerDisabled -= BattleTimerDisabledHandler;
+        _gameController.OnBattleTimerUpdated -= BattleTimerEnabledHandler;
+        _gameController.OnWin -= WinHandler;
+        _gameController.OnFail -= FailHandler;
     }
 }
 
