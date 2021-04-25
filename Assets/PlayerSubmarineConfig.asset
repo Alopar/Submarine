@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: PlayerSubmarineConfig
   m_EditorClassIdentifier: 
   Model:
-    MaxHealth: 200
-    Damage: 20
+    MaxHealth: 1000
+    BaseDamage: 20
+    DamageMultiplierPerCrewMember: 0
     Rooms:
     - Type: 0
       Model:
         MaxHealth: 100
+        RepairingSpeedPerCrewMember: 10
         CrewModels:
         - Id: 1
           MaxHealth: 100
@@ -27,6 +29,29 @@ MonoBehaviour:
     - Type: 1
       Model:
         MaxHealth: 100
+        RepairingSpeedPerCrewMember: 10
         CrewModels:
         - Id: 3
           MaxHealth: 100
+    - Type: 2
+      Model:
+        MaxHealth: 100
+        RepairingSpeedPerCrewMember: 10
+        CrewModels:
+        - Id: 4
+          MaxHealth: 100
+    - Type: 3
+      Model:
+        MaxHealth: 100
+        RepairingSpeedPerCrewMember: 10
+        CrewModels:
+        - Id: 5
+          MaxHealth: 100
+    - Type: 4
+      Model:
+        MaxHealth: 100
+        RepairingSpeedPerCrewMember: 10
+        CrewModels:
+        - Id: 6
+          MaxHealth: 100
+    RoomsConfig: {fileID: 11400000, guid: 14090842eaa0c3141859e0409be8e286, type: 2}
