@@ -47,6 +47,7 @@ public class GameController : MonoBehaviour {
 				PlayerPoint)
 		   .GetComponent<PlayerSubmarine>();
 
+		OnPlayerSubmarineReady?.Invoke(playerSubmarine);
 
 		PrepareToWave(0);
 
