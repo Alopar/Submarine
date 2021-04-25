@@ -638,6 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48da1372a97ef4647bdf282a9e557e0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  torpedosController: {fileID: 0}
   gameplaySettings: {fileID: 11400000, guid: 6daa16e483689eb498e086eca8ee82e4, type: 2}
   PlayerPoint: {fileID: 901936612}
   EnemyMoveStartPoint: {fileID: 1228793718}
@@ -1193,7 +1194,7 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 2.4
-  m_Depth: -1
+  m_Depth: -2
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
