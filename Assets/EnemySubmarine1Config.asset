@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Model:
     MaxHealth: 180
-    Damage: 120
+    Damage: 60
     FireFate: 0.5
