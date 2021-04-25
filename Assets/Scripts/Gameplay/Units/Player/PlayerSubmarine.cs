@@ -111,7 +111,7 @@ public class PlayerSubmarine : MonoBehaviour {
 			OnRoomDisabled?.Invoke(roomType);
 		}
 
-		float damagePerCrewMember = damage * 0.1f;
+		float damagePerCrewMember = damage;
 		for (var index = room.CrewModels.Count - 1; index >= 0; index--){
 			CrewMemberModel crewModel = room.CrewModels[index];
 			crewModel.Health = Mathf.Max(crewModel.Health - damagePerCrewMember, 0.0f);
@@ -154,7 +154,7 @@ public class PlayerSubmarine : MonoBehaviour {
 				roomItem.Model.Health =
 					Mathf.Min(roomItem.Model.Health + roomConfig.RepairingSpeedPerCrewMember * roomItem.Model.CrewModels.Count * deltaTime,
 							  roomConfig.MaxHealth);
-				OnRoomHealthUpdate?.Invoke(roomItem.Type, model.Health);
+				OnRoomHealthUpdate?.Invoke(roomItem.Type, roomItem.Model.Health);
 
 				if (!roomItem.Model.IsActive && roomItem.Model.Health == roomConfig.MaxHealth){
 					roomItem.Model.IsActive = true;

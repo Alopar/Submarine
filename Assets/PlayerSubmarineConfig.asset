@@ -21,37 +21,29 @@ MonoBehaviour:
       Model:
         MaxHealth: 100
         RepairingSpeedPerCrewMember: 10
-        CrewModels:
-        - Id: 0
-          MaxHealth: 100
-        - Id: 2
-          MaxHealth: 100
+        CrewModels: []
     - Type: 1
       Model:
         MaxHealth: 100
         RepairingSpeedPerCrewMember: 10
-        CrewModels:
-        - Id: 3
-          MaxHealth: 100
+        CrewModels: []
     - Type: 2
       Model:
         MaxHealth: 100
         RepairingSpeedPerCrewMember: 10
-        CrewModels:
-        - Id: 4
-          MaxHealth: 100
+        CrewModels: []
     - Type: 3
       Model:
         MaxHealth: 100
         RepairingSpeedPerCrewMember: 10
         CrewModels:
-        - Id: 5
+        - Id: 0
+          MaxHealth: 100
+        - Id: 1
           MaxHealth: 100
     - Type: 4
       Model:
         MaxHealth: 100
         RepairingSpeedPerCrewMember: 10
-        CrewModels:
-        - Id: 6
-          MaxHealth: 100
+        CrewModels: []
     RoomsConfig: {fileID: 11400000, guid: 14090842eaa0c3141859e0409be8e286, type: 2}

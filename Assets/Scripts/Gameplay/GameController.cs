@@ -4,6 +4,7 @@ using DG.Tweening;
 using Enemy;
 using Gameplay;
 using Gameplay.Units;
+using Gameplay.Units.Player;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -36,6 +37,12 @@ public class GameController : MonoBehaviour {
 //		playerSubmarine.
 
 		model = new BattleModel(){ };
+
+		ControllerRooms.OnCrewCellRoomDrop += CrewCellRoomDropHandler;
+	}
+
+	private void CrewCellRoomDropHandler(int memberId, RoomType fromRoom, RoomType toRoom){
+		playerSubmarine.MoveCrewMember(memberId, fromRoom, toRoom);
 	}
 
 	private void Start(){
@@ -46,6 +53,7 @@ public class GameController : MonoBehaviour {
 
 		torpedosController.PlayerSubmarine = playerSubmarine;
 		playerSubmarine.OnShot += PlayerShot;
+		OnPlayerSubmarineReady?.Invoke(playerSubmarine);
 
 		PrepareToWave(0);
 
@@ -122,15 +130,15 @@ public class GameController : MonoBehaviour {
 
 	public void PlayerShot(){
 		bool isHit = Random.value <= playerSubmarine.GetAccuracy();
-		Debug.Log(isHit);
+//		Debug.Log(isHit);
 		Vector3 targetPoint = isHit ? enemySubmarine.GetHitPoint() : enemySubmarine.GetMissPoint();
-		torpedosController.PlayerShot(targetPoint,isHit);
+		torpedosController.PlayerShot(targetPoint, isHit);
 	}
 
 	public void EnemyShot(){
 		bool isHit = Random.value <= playerSubmarine.GetMobility();
 		Vector3 targetPoint = isHit ? playerSubmarine.GetMissPoint() : playerSubmarine.GetHitPoint();
-		torpedosController.EnemyShot(targetPoint,isHit);
+		torpedosController.EnemyShot(targetPoint, isHit);
 	}
 
 	private void Update(){
