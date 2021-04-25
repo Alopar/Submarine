@@ -59,7 +59,7 @@ public class PlayerSubmarine : MonoBehaviour {
 
 	public bool IsRoomEnabled(RoomType roomType) => roomsModelsDictionary[roomType].IsActive;
 
-	private float GetDamageValue() => Config.Model.RoomsConfig.GetWeaponsRoomValue(
+	public float GetDamageValue() => Config.Model.RoomsConfig.GetWeaponsRoomValue(
 		roomsConfigsDictionary[RoomType.Weapons].CrewModels.Count);
 
 	private float GetAccuracy() => Config.Model.RoomsConfig.GetSonarRoomValue(
@@ -81,6 +81,7 @@ public class PlayerSubmarine : MonoBehaviour {
 
 	public void TakeHullDamage(float damage){
 		model.Health = model.Health = Mathf.Max(model.Health - damage, 0.0f);
+		OnHealthUpdate?.Invoke(model.Health);
 		if (model.Health <= 0.0f){
 			OnDestroy?.Invoke();
 		}
@@ -169,11 +170,11 @@ public class PlayerSubmarine : MonoBehaviour {
 	[ContextMenu(nameof(Test_GetEngineDamage))]
 	public void Test_GetEngineDamage() => TakeRoomDamage(RoomType.Engine, 50);
 
-	[ContextMenu(nameof(Test_MoveCrewMember0FromWeaponsToMedBay))]
-	public void Test_MoveCrewMember0FromWeaponsToMedBay() => MoveCrewMember(0, RoomType.Weapons, RoomType.MedBay);
+	[ContextMenu(nameof(Test_MoveCrewMember1FromWeaponsToMedBay))]
+	public void Test_MoveCrewMember1FromWeaponsToMedBay() => MoveCrewMember(1, RoomType.Weapons, RoomType.MedBay);
 
-	[ContextMenu(nameof(Test_MoveCrewMember0FromMedBayToWeapons))]
-	public void Test_MoveCrewMember0FromMedBayToWeapons() => MoveCrewMember(0, RoomType.MedBay, RoomType.Weapons);
+	[ContextMenu(nameof(Test_MoveCrewMember1FromMedBayToWeapons))]
+	public void Test_MoveCrewMember1FromMedBayToWeapons() => MoveCrewMember(1, RoomType.MedBay, RoomType.Weapons);
 
 	[ContextMenu(nameof(Test_ShowInfo))]
 	public void Test_ShowInfo(){
