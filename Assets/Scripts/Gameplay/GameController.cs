@@ -51,41 +51,31 @@ public class GameController : MonoBehaviour {
 				PlayerPoint)
 		   .GetComponent<PlayerSubmarine>();
 
-		torpedosController.PlayerSubmarine = playerSubmarine;
 		playerSubmarine.OnShot += PlayerShot;
+		playerSubmarine.OnDestroy+=PlayerSubmarineDestroyHandler;
 		OnPlayerSubmarineReady?.Invoke(playerSubmarine);
 
+		torpedosController.PlayerSubmarine = playerSubmarine;
+		torpedosController.OnPlayerTakeHit += PlayerTakeHitHandler;
+		torpedosController.OnEnemyTakeHit += EnemyTakeHitHandler;
+
+
 		PrepareToWave(0);
-
-//		StartCoroutine(PrepareToWave(0));
-
-
-//		playerSubmarine.SetSubmarine(newSubmarine);
-
-//		IEnumerator TestSpawnEnemies(){
-//			for (int i = 0; i < 10; i++){
-//				if (enemySubmarine != null){
-//					enemySubmarine.Kill();
-//				}
-//
-//				CreateNewEnemy();
-//
-//				enemySubmarine.Hide(true);
-//				enemySubmarine.Show();
-//				yield return new WaitForSeconds(0.5f);
-//				enemyMovingTween = enemySubmarine.transform.DOMove(EnemyMoveEndPoint.position, 1.0f);
-//				yield return new WaitForSeconds(1.0f);
-//				enemySubmarine.Hide();
-//				yield return new WaitForSeconds(0.5f);
-//			}
-//		}
-//
-//		StartCoroutine(TestSpawnEnemies());
 	}
 
-//	private IEnumerator BattleCoroutine(){
-//		OnBattleTimerEnabled?.Invoke();
-//	}
+	private void PlayerSubmarineDestroyHandler(){
+		Time.timeScale = 0.0f;
+		Debug.Log("fail");
+		OnFail?.Invoke();
+	}
+
+	private void PlayerTakeHitHandler(float damage) => playerSubmarine.TakeHullDamage(damage);
+
+	private void EnemyTakeHitHandler(float damage){
+		if (enemySubmarine != null){
+			enemySubmarine.TakeHullDamage(damage);
+		}
+	}
 
 	private void PrepareToWave(int waveId){
 		model.CurrentWaveId = waveId;
@@ -124,6 +114,8 @@ public class GameController : MonoBehaviour {
 		if (model.CurrentWaveId < gameplaySettings.EnemiesWaves.Count - 1){
 			PrepareToWave(model.CurrentWaveId + 1);
 		} else{
+			Time.timeScale = 0.0f;
+			Debug.Log("Win");
 			OnWin?.Invoke();
 		}
 	}
@@ -132,13 +124,13 @@ public class GameController : MonoBehaviour {
 		bool isHit = Random.value <= playerSubmarine.GetAccuracy();
 //		Debug.Log(isHit);
 		Vector3 targetPoint = isHit ? enemySubmarine.GetHitPoint() : enemySubmarine.GetMissPoint();
-		torpedosController.PlayerShot(targetPoint, isHit);
+		torpedosController.PlayerShot(playerSubmarine.GetDamageValue(), targetPoint, isHit);
 	}
 
 	public void EnemyShot(){
-		bool isHit = Random.value <= playerSubmarine.GetMobility();
-		Vector3 targetPoint = isHit ? playerSubmarine.GetMissPoint() : playerSubmarine.GetHitPoint();
-		torpedosController.EnemyShot(targetPoint, isHit);
+		bool isHit = Random.value > playerSubmarine.GetMobility();
+		Vector3 targetPoint = isHit ? playerSubmarine.GetHitPoint(): playerSubmarine.GetMissPoint() ;
+		torpedosController.EnemyShot(enemySubmarine.GetDamageValue(), targetPoint, isHit);
 	}
 
 	private void Update(){
@@ -158,14 +150,14 @@ public class GameController : MonoBehaviour {
 				break;
 			case BattleState.Battle:
 				break;
-			case BattleState.Win:
-				Debug.Log("Win");
-				Time.timeScale = 0.0f;
-				break;
-			case BattleState.Fail:
-				Debug.Log("Fail");
-				Time.timeScale = 0.0f;
-				break;
+//			case BattleState.Win:
+//				Debug.Log("Win");
+//				Time.timeScale = 0.0f;
+//				break;
+//			case BattleState.Fail:
+//				Debug.Log("Fail");
+//				Time.timeScale = 0.0f;
+//				break;
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
@@ -221,6 +213,6 @@ public enum BattleState {
 //	BeginWave,
 	Preparing,
 	Battle,
-	Win,
-	Fail,
+//	Win,
+//	Fail,
 }

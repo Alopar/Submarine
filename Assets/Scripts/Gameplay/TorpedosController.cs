@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Gameplay {
 	public class TorpedosController : MonoBehaviour {
+		public event Action<float> OnPlayerTakeHit;
+		public event Action<float> OnEnemyTakeHit;
+		
 		[SerializeField] private Torpedo torpedoPrefab;
 		[SerializeField] private Transform torpedosRoot;
 		[SerializeField] private Transform toPlayerStartPoint;
@@ -17,7 +20,7 @@ namespace Gameplay {
 
 		public void LaunchEnemyTorpedo(Torpedo torpedo){ }
 
-		public void PlayerShot(Vector3 targetPoint, bool isHit){
+		public void PlayerShot(float damageValue, Vector3 targetPoint, bool isHit){
 			Vector3 outFirePoint = PlayerSubmarine.GetFirePoint();
 			float distance = Vector3.Distance(outFirePoint, targetPoint);
 
@@ -34,10 +37,13 @@ namespace Gameplay {
 										  Quaternion.identity,
 										  torpedosRoot);
 //			newTorpedo2.SetLayer(TorpedoLayer.EnemyIn);
+			newTorpedo2.DamageValue = damageValue;
 			newTorpedo2.RunTo(targetPoint, isHit);
+
+			newTorpedo2.OnHit += f => OnEnemyTakeHit(f);
 		}
 
-		public void EnemyShot(Vector3 targetPoint, bool isHit){
+		public void EnemyShot(float damageValue, Vector3 targetPoint, bool isHit){
 			
 			
 			Vector3 outFirePoint = EnemySubmarine.GetFirePoint();
@@ -56,7 +62,10 @@ namespace Gameplay {
 										  Quaternion.identity,
 										  torpedosRoot);
 //			newTorpedo2.SetLayer(TorpedoLayer.EnemyIn);
+			newTorpedo2.DamageValue = damageValue;
 			newTorpedo2.RunTo(targetPoint, isHit);
+			
+			newTorpedo2.OnHit += f => OnPlayerTakeHit(f);
 		}
 	}
 }

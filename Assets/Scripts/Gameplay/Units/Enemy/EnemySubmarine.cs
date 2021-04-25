@@ -14,6 +14,7 @@ namespace Enemy {
 		public event Action<bool> OnVisibilityChanged;
 
 		[SerializeField] private Submarine Submarine;
+		[SerializeField] private ControllerSubmarineHealthbar Healthbar;
 		[SerializeField] private Hider Hider;
 
 		[SerializeField] private EnemySubmarineConfig Config;
@@ -56,6 +57,7 @@ namespace Enemy {
 
 		public void TakeHullDamage(float damage){
 			model.Health = model.Health = Mathf.Max(model.Health - damage, 0.0f);
+			Healthbar.SetFill(model.Health/Config.Model.MaxHealth);
 			OnHealthUpdate?.Invoke(model.Health);
 			if (model.Health <= 0.0f){
 				OnDestroy?.Invoke();
