@@ -16,11 +16,11 @@ MonoBehaviour:
     BaseValue: 0.5
     PerCrewMember: 0.1
   SonarRoomConfig:
-    BaseValue: 50
-    PerCrewMember: 10
+    BaseValue: 0.5
+    PerCrewMember: 0.1
   EngineRoomConfig:
-    BaseValue: 10
-    PerCrewMember: 10
+    BaseValue: 0.5
+    PerCrewMember: 0.1
   MedBayRoomConfig:
     BaseValue: 10
   HullRepairRoomConfig:

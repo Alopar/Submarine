@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour {
 		   .GetComponent<PlayerSubmarine>();
 
 		torpedosController.PlayerSubmarine = playerSubmarine;
-		playerSubmarine.OnShot += torpedosController.PlayerShot;
+		playerSubmarine.OnShot += PlayerShot;
 
 		PrepareToWave(0);
 
@@ -98,10 +98,10 @@ public class GameController : MonoBehaviour {
 	private void EnemyReady(EnemySubmarine enemy){
 		enemySubmarine = enemy;
 		enemySubmarine.OnDestroy += EnemyDestroyHandler;
-		enemySubmarine.OnShot += torpedosController.EnemyShot;
+		enemySubmarine.OnShot += EnemyShot;
 
 		torpedosController.EnemySubmarine = enemySubmarine;
-		
+
 		playerSubmarine.SetFireEnabled(true);
 
 		model.BattleState = BattleState.Battle;
@@ -109,8 +109,8 @@ public class GameController : MonoBehaviour {
 
 	private void EnemyDestroyHandler(){
 		enemySubmarine.OnDestroy -= EnemyDestroyHandler;
-		enemySubmarine.OnShot -= torpedosController.EnemyShot;
-		
+		enemySubmarine.OnShot -= EnemyShot;
+
 		playerSubmarine.SetFireEnabled(false);
 
 		if (model.CurrentWaveId < gameplaySettings.EnemiesWaves.Count - 1){
@@ -118,6 +118,19 @@ public class GameController : MonoBehaviour {
 		} else{
 			OnWin?.Invoke();
 		}
+	}
+
+	public void PlayerShot(){
+		bool isHit = Random.value <= playerSubmarine.GetAccuracy();
+		Debug.Log(isHit);
+		Vector3 targetPoint = isHit ? enemySubmarine.GetHitPoint() : enemySubmarine.GetMissPoint();
+		torpedosController.PlayerShot(targetPoint,isHit);
+	}
+
+	public void EnemyShot(){
+		bool isHit = Random.value <= playerSubmarine.GetMobility();
+		Vector3 targetPoint = isHit ? playerSubmarine.GetMissPoint() : playerSubmarine.GetHitPoint();
+		torpedosController.EnemyShot(targetPoint,isHit);
 	}
 
 	private void Update(){
@@ -138,8 +151,12 @@ public class GameController : MonoBehaviour {
 			case BattleState.Battle:
 				break;
 			case BattleState.Win:
+				Debug.Log("Win");
+				Time.timeScale = 0.0f;
 				break;
 			case BattleState.Fail:
+				Debug.Log("Fail");
+				Time.timeScale = 0.0f;
 				break;
 			default:
 				throw new ArgumentOutOfRangeException();

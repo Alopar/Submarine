@@ -236,3 +236,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c30b9965bb4d7f88ab7d41f8799e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TorpedoLayers: {fileID: 11400000, guid: d711cc782343a2248994d038be16027f, type: 2}
+  AllObjects:
+  - {fileID: 2332155491797649149}
+  - {fileID: 1343940752900738265}
+  flyTimeToOpponent: 1
+  explodeEffect: {fileID: 0}

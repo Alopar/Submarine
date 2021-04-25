@@ -4,6 +4,7 @@ using Gameplay.Units;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Enemy {
 	public class EnemySubmarine : MonoBehaviour {
@@ -104,5 +105,10 @@ namespace Enemy {
 		public void Test_GetHullDamage() => TakeHullDamage(50);
 
 		#endregion
+
+		
+		public Vector3 GetFirePoint()=>Submarine.GetFirePoint();
+		public Vector3 GetHitPoint()=>Submarine.GetHitPoint();
+		public Vector3 GetMissPoint()=>Submarine.GetMissPoint();
 	}
 }
