@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class PlayerSubmarine : MonoBehaviour {
 	public event Action OnDestroy;
+	public event Action OnShot;
 	public event Action<float> OnHealthUpdate;
 	public event Action<RoomType> OnRoomDisabled;
 	public event Action<RoomType> OnRoomEnabled;
@@ -28,6 +29,7 @@ public class PlayerSubmarine : MonoBehaviour {
 	private void Awake(){
 		model = new PlayerSubmarineModel(){
 			Health = Config.Model.MaxHealth,
+			WeaponsReloadProgress = 1.0f,
 			Rooms = Config.Model.Rooms.Select(room => new RoomItem(){
 				Type = room.Type,
 				Model = new RoomModel(){
@@ -57,15 +59,19 @@ public class PlayerSubmarine : MonoBehaviour {
 		}
 	}
 
+	public void SetFireEnabled(bool isEnabled) => model.IsNeedShot = isEnabled;
+
 	public bool IsRoomEnabled(RoomType roomType) => roomsModelsDictionary[roomType].IsActive;
+
+	public float GetMaxRoomHP(RoomType roomType) => roomsConfigsDictionary[roomType].MaxHealth;
 
 	public float GetDamageValue() => Config.Model.RoomsConfig.GetWeaponsRoomValue(
 		roomsConfigsDictionary[RoomType.Weapons].CrewModels.Count);
 
-	private float GetAccuracy() => Config.Model.RoomsConfig.GetSonarRoomValue(
+	public float GetAccuracy() => Config.Model.RoomsConfig.GetSonarRoomValue(
 		roomsConfigsDictionary[RoomType.Sonar].CrewModels.Count);
 
-	private float GetMobility() => Config.Model.RoomsConfig.GetEngineRoomValue(
+	public float GetMobility() => Config.Model.RoomsConfig.GetEngineRoomValue(
 		roomsConfigsDictionary[RoomType.Engine].CrewModels.Count);
 
 	private float GetMedBayHealValue() => Config.Model.RoomsConfig.GetMedBayRoomValue();
@@ -73,10 +79,17 @@ public class PlayerSubmarine : MonoBehaviour {
 	private float GetHullRepairValue() => Config.Model.RoomsConfig.GetHullRepairRoomValue(
 		roomsConfigsDictionary[RoomType.HullRepair].CrewModels.Count);
 
+	public float GetCrewMemberMaxHealthById(int id) => crewMembersConfig[id].MaxHealth;
+
+	public Vector3 GetFirePoint() => Submarine.GetFirePoint();
+	public Vector3 GetHitPoint() => Submarine.GetHitPoint();
+	public Vector3 GetMissPoint() => Submarine.GetMissPoint();
+
 	public void Update(){
 		HealTick(Time.deltaTime);
 		HullRepairTick(Time.deltaTime);
 		RoomsRepairTick(Time.deltaTime);
+		WeaponsTick(Time.deltaTime);
 	}
 
 	public void TakeHullDamage(float damage){
@@ -99,10 +112,13 @@ public class PlayerSubmarine : MonoBehaviour {
 		}
 
 		float damagePerCrewMember = damage * 0.1f;
-		foreach (CrewMemberModel crewModel in room.CrewModels){
+		for (var index = room.CrewModels.Count - 1; index >= 0; index--){
+			CrewMemberModel crewModel = room.CrewModels[index];
 			crewModel.Health = Mathf.Max(crewModel.Health - damagePerCrewMember, 0.0f);
 			OnCrewMemberHealthUpdate?.Invoke(crewModel.Id, crewModel.Health);
 			if (crewModel.Health <= 0.0f){
+				room.CrewModels.Remove(crewModel);
+				crewMembersConfig.Remove(crewModel.Id);
 				OnCrewMemberDeath?.Invoke(crewModel.Id);
 			}
 		}
@@ -148,11 +164,29 @@ public class PlayerSubmarine : MonoBehaviour {
 		}
 	}
 
+	public void WeaponsTick(float deltaTime){
+		if (!roomsModelsDictionary[RoomType.Weapons].IsActive) return;
+
+		if (model.WeaponsReloadProgress < 1.0f){
+			float appendReload = Config.Model.RoomsConfig.GetWeaponsRoomValue(roomsModelsDictionary[RoomType.Weapons].CrewModels.Count) * deltaTime;
+			model.WeaponsReloadProgress = Mathf.Min(model.WeaponsReloadProgress + appendReload, 1.0f);
+		}
+
+		if (model.IsNeedShot && model.WeaponsReloadProgress == 1.0f){
+			model.WeaponsReloadProgress = 0.0f;
+			OnShot?.Invoke();
+		}
+	}
+
 	public void MoveCrewMember(int crewMemberId, RoomType fromRoom, RoomType toRoom){
 		int inRoomCrewMemberIndex = roomsModelsDictionary[fromRoom].CrewModels.FindIndex(memberModel => memberModel.Id == crewMemberId);
 
 		if (inRoomCrewMemberIndex == -1){
 			throw new ArgumentException($"Нельзя переместить чувака с id {crewMemberId} из отсека {fromRoom} - его там нет!");
+		}
+
+		if (fromRoom == toRoom){
+			return;
 		}
 
 		roomsModelsDictionary[toRoom].CrewModels.Add(roomsModelsDictionary[fromRoom].CrewModels[inRoomCrewMemberIndex]);

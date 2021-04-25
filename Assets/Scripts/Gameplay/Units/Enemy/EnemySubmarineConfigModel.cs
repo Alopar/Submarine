@@ -6,5 +6,6 @@ namespace Enemy {
 	public class EnemySubmarineConfigModel {
 		public float MaxHealth;
 		public float Damage;	
+		public float FireFate;
 	}
 }

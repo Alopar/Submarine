@@ -7,6 +7,8 @@ namespace Gameplay.Units.Player {
 	[Serializable]
 	public class PlayerSubmarineModel {
 		public float Health;
+		public float WeaponsReloadProgress;
+		public bool IsNeedShot = false;
 		public List<RoomItem> Rooms;
 	}
 

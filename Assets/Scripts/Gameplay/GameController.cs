@@ -35,10 +35,7 @@ public class GameController : MonoBehaviour {
 	public void Awake(){
 //		playerSubmarine.
 
-		model = new BattleModel(){
-//			BattleState = BattleState.Preparing,
-//			CurrentWaveId = -1,
-		};
+		model = new BattleModel(){ };
 	}
 
 	private void Start(){
@@ -47,38 +44,51 @@ public class GameController : MonoBehaviour {
 				PlayerPoint)
 		   .GetComponent<PlayerSubmarine>();
 
+		torpedosController.PlayerSubmarine = playerSubmarine;
+		playerSubmarine.OnShot += PlayerShot;
 
 		PrepareToWave(0);
+
+//		StartCoroutine(PrepareToWave(0));
 
 
 //		playerSubmarine.SetSubmarine(newSubmarine);
 
-		IEnumerator TestSpawnEnemies(){
-			for (int i = 0; i < 10; i++){
-				if (enemySubmarine != null){
-					enemySubmarine.Kill();
-				}
-
-				CreateNewEnemy();
-
-				enemySubmarine.Hide(true);
-				enemySubmarine.Show();
-				yield return new WaitForSeconds(0.5f);
-				enemyMovingTween = enemySubmarine.transform.DOMove(EnemyMoveEndPoint.position, 1.0f);
-				yield return new WaitForSeconds(1.0f);
-				enemySubmarine.Hide();
-				yield return new WaitForSeconds(0.5f);
-			}
-		}
-
-		StartCoroutine(TestSpawnEnemies());
+//		IEnumerator TestSpawnEnemies(){
+//			for (int i = 0; i < 10; i++){
+//				if (enemySubmarine != null){
+//					enemySubmarine.Kill();
+//				}
+//
+//				CreateNewEnemy();
+//
+//				enemySubmarine.Hide(true);
+//				enemySubmarine.Show();
+//				yield return new WaitForSeconds(0.5f);
+//				enemyMovingTween = enemySubmarine.transform.DOMove(EnemyMoveEndPoint.position, 1.0f);
+//				yield return new WaitForSeconds(1.0f);
+//				enemySubmarine.Hide();
+//				yield return new WaitForSeconds(0.5f);
+//			}
+//		}
+//
+//		StartCoroutine(TestSpawnEnemies());
 	}
 
 //	private IEnumerator BattleCoroutine(){
 //		OnBattleTimerEnabled?.Invoke();
 //	}
 
-	private IEnumerator PrepareToWave(int waveId){
+	private void PrepareToWave(int waveId){
+		model.CurrentWaveId = waveId;
+		model.PreparingTimer = gameplaySettings.EnemiesWaves[waveId].PreparingTime;
+		model.BattleState = BattleState.Preparing;
+	}
+
+	private IEnumerator LaunchNewEnemy(int waveId){
+		model.CurrentWaveId = waveId;
+
+//		yield return new WaitForSeconds(gameplaySettings.EnemiesWaves[waveId].PreparingTime);
 		EnemySubmarine enemy = CreateNewEnemy(waveId);
 		yield return MoveEnemy(enemy);
 
@@ -88,53 +98,70 @@ public class GameController : MonoBehaviour {
 	private void EnemyReady(EnemySubmarine enemy){
 		enemySubmarine = enemy;
 		enemySubmarine.OnDestroy += EnemyDestroyHandler;
-		
-		
+		enemySubmarine.OnShot += EnemyShot;
+
+		torpedosController.EnemySubmarine = enemySubmarine;
+
+		playerSubmarine.SetFireEnabled(true);
+
+		model.BattleState = BattleState.Battle;
 	}
 
 	private void EnemyDestroyHandler(){
 		enemySubmarine.OnDestroy -= EnemyDestroyHandler;
+		enemySubmarine.OnShot -= EnemyShot;
+
+		playerSubmarine.SetFireEnabled(false);
 
 		if (model.CurrentWaveId < gameplaySettings.EnemiesWaves.Count - 1){
-			StartCoroutine(PrepareToWave(model.CurrentWaveId + 1));
+			PrepareToWave(model.CurrentWaveId + 1);
 		} else{
 			OnWin?.Invoke();
 		}
 	}
 
-//	private void Update(){
-//		switch (model.BattleState){
-////			case BattleState.BeginWave:
-////				break;
-//			case BattleState.Preparing:
-//				++model.CurrentWaveId;
-//
-//				var enemy = CreateNewEnemy(model.CurrentWaveId);
-//				StartCoroutine(MoveEnemy(enemy));
-//
-//
-//				model.PreparingTimer -= Time.deltaTime;
-//				OnBattleTimerUpdated?.Invoke(model.PreparingTimer);
-//				if (model.PreparingTimer <= 0){
-////					model.BattleState = BattleState.Battle;
-//
-//
-//					StartCoroutine(TestSpawnEnemies());
-//				}
-//
-//				DOTween.To(() => model.PreparingTimer, value => { model.PreparingTimer = value; })
-//
+	public void PlayerShot(){
+		bool isHit = Random.value <= playerSubmarine.GetAccuracy();
+		Debug.Log(isHit);
+		Vector3 targetPoint = isHit ? enemySubmarine.GetHitPoint() : enemySubmarine.GetMissPoint();
+		torpedosController.PlayerShot(targetPoint,isHit);
+	}
+
+	public void EnemyShot(){
+		bool isHit = Random.value <= playerSubmarine.GetMobility();
+		Vector3 targetPoint = isHit ? playerSubmarine.GetMissPoint() : playerSubmarine.GetHitPoint();
+		torpedosController.EnemyShot(targetPoint,isHit);
+	}
+
+	private void Update(){
+		switch (model.BattleState){
+//			case BattleState.BeginNextWave:
 //				break;
-//			case BattleState.Battle:
-//				break;
-//			case BattleState.Win:
-//				break;
-//			case BattleState.Fail:
-//				break;
-//			default:
-//				throw new ArgumentOutOfRangeException();
-//		}
-//	}
+			case BattleState.Preparing:
+				if (model.PreparingTimer > 0.0f){
+					model.PreparingTimer = Mathf.Max(model.PreparingTimer - Time.deltaTime, 0.0f);
+					OnBattleTimerUpdated?.Invoke(model.PreparingTimer);
+					if (model.PreparingTimer == 0.0f){
+						OnBattleTimerDisabled?.Invoke();
+						StartCoroutine(LaunchNewEnemy(model.CurrentWaveId));
+					}
+				}
+
+				break;
+			case BattleState.Battle:
+				break;
+			case BattleState.Win:
+				Debug.Log("Win");
+				Time.timeScale = 0.0f;
+				break;
+			case BattleState.Fail:
+				Debug.Log("Fail");
+				Time.timeScale = 0.0f;
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+	}
 
 	[ContextMenu(nameof(CreateNewEnemy))]
 	public void CreateNewEnemy(){

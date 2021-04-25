@@ -9,10 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aa4bbc678164b1f801bc1b40c59dcc1, type: 3}
-  m_Name: EnemySubmarine1Config
+  m_Script: {fileID: 11500000, guid: 408999572e5a4235a46d4291919ab52e, type: 3}
+  m_Name: TorpedoLayers
   m_EditorClassIdentifier: 
-  Model:
-    MaxHealth: 80
-    Damage: 12
-    FireFate: 0.5
+  Layers:
+  - Layer: 0
+    Name: PlayerOut
+  - Layer: 1
+    Name: PlayerIn
+  - Layer: 2
+    Name: EnemyOut
+  - Layer: 3
+    Name: EnemyIn
