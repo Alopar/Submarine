@@ -1,9 +1,9 @@
 namespace Gameplay.Units.Player {
 	public enum RoomType {
-		Weapons = 1,
-		Sonar = 2,
-		Engine = 3,
-		MedBay = 4,
-		HullRepair = 5,
+		Weapons = 0,
+		Sonar = 1,
+		Engine = 2,
+		MedBay = 3,
+		HullRepair = 4,
 	}
 }

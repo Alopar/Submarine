@@ -71,7 +71,7 @@ public class GameController : MonoBehaviour {
 
 	private void PlayerTakeHitHandler(float damage){
 		playerSubmarine.TakeHullDamage(damage);
-		RoomType damagedRoom = (RoomType) Random.Range(1, 5 + 1);
+		RoomType damagedRoom = (RoomType) Random.Range(0, 4 + 1);
 		playerSubmarine.TakeRoomDamage(damagedRoom, damage);
 	}
 
@@ -85,6 +85,7 @@ public class GameController : MonoBehaviour {
 		model.CurrentWaveId = waveId;
 		model.PreparingTimer = gameplaySettings.EnemiesWaves[waveId].PreparingTime;
 		model.BattleState = BattleState.Preparing;
+		OnBattleTimerEnabled?.Invoke();
 	}
 
 	private IEnumerator LaunchNewEnemy(int waveId){
