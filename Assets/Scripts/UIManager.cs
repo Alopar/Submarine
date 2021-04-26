@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
 
     private void BattleTimerDisabledHandler()
     {
-        timer.SetActive(true);
+        timer.SetActive(false);
     }
 
     private void BattleTimerEnabledHandler(float value)
