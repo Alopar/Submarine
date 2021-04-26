@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponsRoomConfig:
     BaseValue: 0
-    PerCrewMember: 0.25
+    PerCrewMember: 0.2
   SonarRoomConfig:
     BaseValue: 0.2
     PerCrewMember: 0.2
