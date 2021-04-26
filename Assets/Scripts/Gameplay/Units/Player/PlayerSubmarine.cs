@@ -66,19 +66,20 @@ public class PlayerSubmarine : MonoBehaviour {
 
 	public float GetMaxRoomHP(RoomType roomType) => roomsConfigsDictionary[roomType].MaxHealth;
 
-	public float GetDamageValue() => Config.Model.RoomsConfig.GetWeaponsRoomValue(
-		roomsConfigsDictionary[RoomType.Weapons].CrewModels.Count);
+//	public float GetDamageValue() => Config.Model.RoomsConfig.GetWeaponsRoomValue(
+//		roomsModelsDictionary[RoomType.Weapons].CrewModels.Count);
+	public float GetDamageValue() => Config.Model.BaseDamage;
 
 	public float GetAccuracy() => Config.Model.RoomsConfig.GetSonarRoomValue(
-		roomsConfigsDictionary[RoomType.Sonar].CrewModels.Count);
+		roomsModelsDictionary[RoomType.Sonar].CrewModels.Count);
 
 	public float GetMobility() => Config.Model.RoomsConfig.GetEngineRoomValue(
-		roomsConfigsDictionary[RoomType.Engine].CrewModels.Count);
+		roomsModelsDictionary[RoomType.Engine].CrewModels.Count);
 
 	private float GetMedBayHealValue() => Config.Model.RoomsConfig.GetMedBayRoomValue();
 
 	private float GetHullRepairValue() => Config.Model.RoomsConfig.GetHullRepairRoomValue(
-		roomsConfigsDictionary[RoomType.HullRepair].CrewModels.Count);
+		roomsModelsDictionary[RoomType.HullRepair].CrewModels.Count);
 
 	public float GetCrewMemberMaxHealthById(int id) => crewMembersConfig[id].MaxHealth;
 
@@ -95,7 +96,7 @@ public class PlayerSubmarine : MonoBehaviour {
 
 	public void TakeHullDamage(float damage){
 		model.Health = Mathf.Max(model.Health - damage, 0.0f);
-		Healthbar.SetFill(model.Health/Config.Model.MaxHealth);
+		Healthbar.SetFill(model.Health / Config.Model.MaxHealth);
 		OnHealthUpdate?.Invoke(model.Health);
 		if (model.Health <= 0.0f){
 			OnDestroy?.Invoke();
@@ -109,7 +110,7 @@ public class PlayerSubmarine : MonoBehaviour {
 		room.Health = newHealth;
 		OnRoomHealthUpdate?.Invoke(roomType, newHealth);
 
-		if (room.IsActive && newHealth <= 0.0f){
+		if (room.IsActive && newHealth <= roomsConfigsDictionary[roomType].MaxHealth * 0.5f){
 			room.IsActive = false;
 			OnRoomDisabled?.Invoke(roomType);
 		}
@@ -146,6 +147,7 @@ public class PlayerSubmarine : MonoBehaviour {
 		if (model.Health < Config.Model.MaxHealth){
 			var repairValue = GetHullRepairValue();
 			model.Health = Mathf.Min(model.Health + repairValue * deltaTime, Config.Model.MaxHealth);
+			Healthbar.SetFill(model.Health / Config.Model.MaxHealth);
 			OnHealthUpdate?.Invoke(model.Health);
 		}
 	}
@@ -153,13 +155,15 @@ public class PlayerSubmarine : MonoBehaviour {
 	private void RoomsRepairTick(float deltaTime){
 		foreach (RoomItem roomItem in model.Rooms){
 			var roomConfig = roomsConfigsDictionary[roomItem.Type];
-			if (!roomItem.Model.IsActive && roomItem.Model.Health < roomConfig.MaxHealth){
+			if (
+//				!roomItem.Model.IsActive &&
+				roomItem.Model.Health < roomConfig.MaxHealth){
 				roomItem.Model.Health =
 					Mathf.Min(roomItem.Model.Health + roomConfig.RepairingSpeedPerCrewMember * roomItem.Model.CrewModels.Count * deltaTime,
 							  roomConfig.MaxHealth);
 				OnRoomHealthUpdate?.Invoke(roomItem.Type, roomItem.Model.Health);
 
-				if (!roomItem.Model.IsActive && roomItem.Model.Health == roomConfig.MaxHealth){
+				if (!roomItem.Model.IsActive && roomItem.Model.Health >= roomConfig.MaxHealth * 0.5f){
 					roomItem.Model.IsActive = true;
 					OnRoomEnabled?.Invoke(roomItem.Type);
 				}
