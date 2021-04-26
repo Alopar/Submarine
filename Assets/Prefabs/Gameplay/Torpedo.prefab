@@ -49,7 +49,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   flyTimeToOpponent: 1
-  explodeEffect: {fileID: 0}
+  explodeEffect: {fileID: 1903305924092768987, guid: 2c7fe933bca4c5143a7df2bc4496a767, type: 3}
 --- !u!1001 &6186095460206851412
 PrefabInstance:
   m_ObjectHideFlags: 0

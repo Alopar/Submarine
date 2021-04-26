@@ -33,7 +33,20 @@ namespace Gameplay {
 
 				if (needExplode && runProgress > 1.0f){
 					OnHit?.Invoke(DamageValue);
-					AudioManager.Play("Explosion");
+
+					switch(Mathf.RoundToInt(UnityEngine.Random.Range(0, 2)))
+                    {
+						case 0:
+							AudioManager.Play("ExplosionLow");
+							break;
+						case 1:
+							AudioManager.Play("Explosion");
+							break;
+						case 2:
+							AudioManager.Play("ExplosionHigh");
+							break;
+					}
+					
 					Kill();
 				}
 
@@ -58,6 +71,7 @@ namespace Gameplay {
 			needExplode = isHit;
 			
 			transform.LookAt(targetPos);
+			AudioManager.Play("Torpedo");
 		}
 
 //		public void RunToMiss(Vector3 targetPos){

@@ -14,6 +14,11 @@ public class StorageManager : MonoBehaviour
     {
         _self = this;
 
+        MenuUIManager.OnMusicToggle += SetMusicState;
+        MenuUIManager.OnSoundToggle += SetSoundState;
+        MenuUIManager.OnMusicChange += SetMusicVolume;
+        MenuUIManager.OnSoundChange += SetSoundVolume;
+
         UIManager.OnMusicToggle += SetMusicState;
         UIManager.OnSoundToggle += SetSoundState;
         UIManager.OnMusicChange += SetMusicVolume;
@@ -83,6 +88,11 @@ public class StorageManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        MenuUIManager.OnMusicToggle -= SetMusicState;
+        MenuUIManager.OnSoundToggle -= SetSoundState;
+        MenuUIManager.OnMusicChange -= SetMusicVolume;
+        MenuUIManager.OnSoundChange -= SetSoundVolume;
+
         UIManager.OnMusicToggle -= SetMusicState;
         UIManager.OnSoundToggle -= SetSoundState;
         UIManager.OnMusicChange -= SetMusicVolume;

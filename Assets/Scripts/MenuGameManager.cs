@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class MenuGameManager : MonoBehaviour
 {
     void Start()
     {
-        AudioManager.Play("BackgroundGame");
+        AudioManager.Play("BackgroundMainMenu");
     }
-        
+
     void Update()
     {
-        
+
     }
 }
