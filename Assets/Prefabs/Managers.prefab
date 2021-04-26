@@ -9,10 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8141978135984369779}
-  - component: {fileID: 8141978135984369780}
-  - component: {fileID: 8141978135984369781}
-  - component: {fileID: 8141978135984369778}
-  - component: {fileID: 280951684}
+  - component: {fileID: 6793792555304928839}
+  - component: {fileID: 118296950259549477}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -27,14 +25,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8141978135984369776}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8141978135984369780
+--- !u!114 &6793792555304928839
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 009410abd7cc7c2438b38fea3e0474cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8141978135984369781
+--- !u!114 &118296950259549477
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,93 +56,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24c2e194f67bdb74f8fa659d2257c261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8141978135984369778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8141978135984369776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13150017fc55cf849aac63d70a623dad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _soundOn: 1
-  _musicOn: 1
-  _soundVolume: 1
-  _musicVolume: 1
-  sounds:
-  - name: BackgroundMainMenu
-    clip: {fileID: 8300000, guid: 9c8f194df8ab1c84bbce17ce020d4ea5, type: 3}
-    loop: 1
-    soundType: 1
-    volume: 1
-    source: {fileID: 0}
-  - name: BackgroundGame
-    clip: {fileID: 8300000, guid: f5942c6ab40b3e04ba751ace1f54b069, type: 3}
-    loop: 1
-    soundType: 1
-    volume: 1
-    source: {fileID: 0}
-  - name: BackgroundFight
-    clip: {fileID: 8300000, guid: f4bffaf51807de34e853ca9341ff01d0, type: 3}
-    loop: 1
-    soundType: 1
-    volume: 1
-    source: {fileID: 0}
-  - name: Alarm
-    clip: {fileID: 8300000, guid: 9fa694429d80e0c4b9e9fdcff595a29c, type: 3}
-    loop: 0
-    soundType: 0
-    volume: 1
-    source: {fileID: 0}
-  - name: Explosion
-    clip: {fileID: 8300000, guid: eadc4075e07465649a5f30db9620d449, type: 3}
-    loop: 0
-    soundType: 0
-    volume: 1
-    source: {fileID: 0}
-  - name: ExplosionHigh
-    clip: {fileID: 8300000, guid: bdbb5e944f6dab649a67628c5b9b0df7, type: 3}
-    loop: 0
-    soundType: 0
-    volume: 1
-    source: {fileID: 0}
-  - name: ExplosionLow
-    clip: {fileID: 8300000, guid: 59ff813b391f48241b5ee7809803b948, type: 3}
-    loop: 0
-    soundType: 0
-    volume: 1
-    source: {fileID: 0}
-  - name: Sonar
-    clip: {fileID: 8300000, guid: c424cf92c73b23f4b9fec27ea5e455e2, type: 3}
-    loop: 0
-    soundType: 0
-    volume: 1
-    source: {fileID: 0}
-  - name: SubmarineProps
-    clip: {fileID: 8300000, guid: 689d1074da37f82428b89d0e010480f2, type: 3}
-    loop: 1
-    soundType: 0
-    volume: 1
-    source: {fileID: 0}
-  - name: Torpedo
-    clip: {fileID: 8300000, guid: 53ca001ae1f325a4cb80e01349b09736, type: 3}
-    loop: 0
-    soundType: 0
-    volume: 1
-    source: {fileID: 0}
---- !u!114 &280951684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8141978135984369776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 953fff7d88088a546b9ff2ee173d27ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameController: {fileID: 0}

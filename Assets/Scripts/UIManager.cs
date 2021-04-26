@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     private GameController _gameController;
     public GameObject timer;
     public GameObject end;
+    public GameObject win;
 
     void Awake()
     {
@@ -28,7 +29,7 @@ public class UIManager : MonoBehaviour
 
     private void WinHandler()
     {
-        end.SetActive(true);
+        win.SetActive(true);
     }
 
     private void BattleTimerEnabledHandler()
