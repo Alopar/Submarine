@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[DefaultExecutionOrder(40)]
 public class Crew : MonoBehaviour
 {
     [SerializeField] private Image _fillbar;

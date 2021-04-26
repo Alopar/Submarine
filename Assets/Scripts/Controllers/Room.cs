@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+[DefaultExecutionOrder(50)]
 public class Room : MonoBehaviour
 {
     [SerializeField] private Image _fillbar;

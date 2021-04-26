@@ -18,22 +18,22 @@ MonoBehaviour:
   - {fileID: 8429494328288825199, guid: d87054057adb7b341a394838f3d9da30, type: 3}
   EnemiesWaves:
   - PreparingTime: 3
+    EnemyPrefab: {fileID: 8429494328288825199, guid: 2594226bb6d6b5e40ac5283107c397e4, type: 3}
+  - PreparingTime: 10
+    EnemyPrefab: {fileID: 8429494328288825199, guid: d87054057adb7b341a394838f3d9da30, type: 3}
+  - PreparingTime: 10
+    EnemyPrefab: {fileID: 8429494328288825199, guid: 2594226bb6d6b5e40ac5283107c397e4, type: 3}
+  - PreparingTime: 10
     EnemyPrefab: {fileID: 8429494328288825199, guid: d87054057adb7b341a394838f3d9da30, type: 3}
   - PreparingTime: 15
     EnemyPrefab: {fileID: 8429494328288825199, guid: 2594226bb6d6b5e40ac5283107c397e4, type: 3}
   - PreparingTime: 10
     EnemyPrefab: {fileID: 8429494328288825199, guid: d87054057adb7b341a394838f3d9da30, type: 3}
-  - PreparingTime: 20
+  - PreparingTime: 10
     EnemyPrefab: {fileID: 8429494328288825199, guid: 2594226bb6d6b5e40ac5283107c397e4, type: 3}
-  - PreparingTime: 12
+  - PreparingTime: 10
     EnemyPrefab: {fileID: 8429494328288825199, guid: d87054057adb7b341a394838f3d9da30, type: 3}
-  - PreparingTime: 18
+  - PreparingTime: 10
     EnemyPrefab: {fileID: 8429494328288825199, guid: 2594226bb6d6b5e40ac5283107c397e4, type: 3}
-  - PreparingTime: 14
+  - PreparingTime: 10
     EnemyPrefab: {fileID: 8429494328288825199, guid: d87054057adb7b341a394838f3d9da30, type: 3}
-  - PreparingTime: 18
-    EnemyPrefab: {fileID: 8429494328288825199, guid: 2594226bb6d6b5e40ac5283107c397e4, type: 3}
-  - PreparingTime: 15
-    EnemyPrefab: {fileID: 8429494328288825199, guid: 2594226bb6d6b5e40ac5283107c397e4, type: 3}
-  - PreparingTime: 12
-    EnemyPrefab: {fileID: 8429494328288825199, guid: 2594226bb6d6b5e40ac5283107c397e4, type: 3}

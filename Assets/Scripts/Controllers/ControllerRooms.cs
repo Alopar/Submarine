@@ -3,6 +3,7 @@ using UnityEngine;
 using Gameplay.Units.Player;
 using System;
 
+[DefaultExecutionOrder(100)]
 public class ControllerRooms : MonoBehaviour
 {
     [SerializeField] private GameController _gameController;
