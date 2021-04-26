@@ -11,6 +11,7 @@ public class Room : MonoBehaviour
     [SerializeField] private Image _fillbar;
     [SerializeField] private RoomType _roomType;
     [SerializeField] private CrewCellPlace[] _cells;
+    [SerializeField] private RectTransform Krestik;
 
     public event Action<int, RoomType, RoomType> OnCrewCellDrop;
 
@@ -33,6 +34,7 @@ public class Room : MonoBehaviour
     public void SetHealth(float value)
     {
         _fillbar.fillAmount = value;
+        Krestik.gameObject.SetActive(value<0.5f);
     }
 
     public RoomType GetRoomType()
