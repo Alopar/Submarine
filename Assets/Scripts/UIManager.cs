@@ -89,6 +89,14 @@ public class UIManager : MonoBehaviour
     public void Pause(bool value)
     {
         OnPause?.Invoke(value);
+        if (value)
+        {
+            Time.timeScale = 0.0f;
+        }
+        else
+        {
+            Time.timeScale = 1.0f;
+        }
     }
 
     public void Replay()
