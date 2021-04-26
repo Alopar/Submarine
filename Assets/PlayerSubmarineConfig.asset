@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Model:
     MaxHealth: 1000
-    BaseDamage: 60
+    BaseDamage: 100
     DamageMultiplierPerCrewMember: 0
     Rooms:
     - Type: 0
